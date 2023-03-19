@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Camera Page</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        #video-container {
+            position: relative;
+            width: 640px;
+            height: 480px;
+            margin: 0 auto;
+            margin-top: 50px;
+            border: 5px solid black;
+        }
+
+        #video {
+            width: 100%;
+            height: 100%;
+        }
+
+        #btn-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        button {
+            padding: 10px;
+            font-size: 18px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div id="video-container">
+        <video id="video" autoplay></video>
+    </div>
+    <div id="btn-container">
+        <button id="btn-start">Start Recording</button>
+        <button id="btn-stop" disabled>Stop Recording</button>
+    </div>
+    <script>
+        // get video element
+        const video = document.getElementById('video');
+
+        // get buttons
+        const startButton = document.getElementById('btn-start');
+        const stopButton = document.getElementById('btn-stop');
+
+        // get user media
+        navigator.mediaDevices.getUserMedia({
+            video: true,
+            audio: false
+        })
+        .then(stream => {
+            video.srcObject = stream;
+            video.play();
+            const mediaRecorder = new MediaRecorder(stream);
+            let chunks = [];
+
+            // start recording
+            startButton.addEventListener('click', () => {
+                mediaRecorder.start();
+                console.log('Started recording...');
+                startButton.disabled = true;
+                stopButton.disabled = false;
+            });
+
+            // stop recording
+            stopButton.addEventListener('click', () => {
+                mediaRecorder.stop();
+                console.log('Stopped recording...');
+                startButton.disabled = false;
+                stopButton.disabled = true;
+            });
+
+            // handle data available
+            mediaRecorder.addEventListener('dataavailable', e => {
+                chunks.push(e.data);
+            });
+
+            // handle stop event
+            mediaRecorder.addEventListener('stop', () => {
+                const blob = new Blob(chunks, { type: 'video/webm' });
+                chunks = [];
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                document.body.appendChild(a);
+                a.style = 'display: none';
+                a.href = url;
+                a.download = 'recorded-video.webm';
+                a.click();
+                window.URL.revokeObjectURL(url);
+            });
+        })
+        .catch(error => {
+            console.error(error);
+        });
+    </script>
+</body>
+</html>
