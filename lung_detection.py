@@ -6,35 +6,28 @@ import numpy as np
 import matplotlib.pyplot as plt
 import wave
 
-class Detection:
-
-    def __init__(self):
-        pass
-
-    def convert_to_wav(self, input_file):
-        if os.path.isfile(input_file):
-            new_file = input_file.replace('.mov', '.wav')
-            command = f'ffmpeg -i {input_file} -vn -acodec pcm_s16le -ar 44100 -ac 2 {new_file} >/dev/null 2>&1'
-            os.system(command)
-            os.remove(input_file)
-            
-            return new_file
+def convert_to_wav(input_file):
+    if os.path.isfile(input_file):
+        new_file = input_file.replace('.mov', '.wav')
+        command = f'ffmpeg -i {input_file} -vn -acodec pcm_s16le -ar 44100 -ac 2 {new_file} >/dev/null 2>&1'
+        os.system(command)
+        os.remove(input_file)
         
-    def wav_to_spectrograzzm(self, input_file):
-        y, sr = librosa.load(input_file)
-
-        # Generate a spectrogram
-        spec = librosa.feature.melspectrogram(y=y, sr=sr)
-
-        # Convert to decibels
-        spec_db = librosa.power_to_db(spec, ref=np.max)
-
-        return spec_db, sr
+        return new_file
     
-def detect_lung():
-    lung = Detection()
-    lung.convert_to_wav('b.mov')
-    spectrogram, sr = lung.wav_to_spectrograzzm('b.wav')
+def wav_to_spectrograzzm(input_file):
+    y, sr = librosa.load(input_file)
+
+    # Generate a spectrogram
+    spec = librosa.feature.melspectrogram(y=y, sr=sr)
+
+    # Convert to decibels
+    spec_db = librosa.power_to_db(spec, ref=np.max)
+
+    return spec_db, sr
+
+def detect_lung(input_file):
+    spectrogram, sr = wav_to_spectrograzzm(input_file)
 
     plt.figure(figsize=(10, 4))
     librosa.display.specshow(spectrogram, x_axis='time', y_axis='mel', sr=sr, cmap='coolwarm')
