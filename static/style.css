@@ -1,0 +1,128 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap');
+
+/* Reset styles for the page */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* Set font and color defaults */
+body {
+  font-family: 'Poppins', sans-serif;
+  color: black;
+}
+
+/* Style for the navbar buttons */
+.nav-btn {
+  font-family: Arial, Helvetica, sans-serif;
+  transform: translateY(690%);
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: black;
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+  border-radius: 25px;
+  margin-right: 20px;;
+  border:none;
+  width:200px;
+}
+
+.button:hover {
+  background-color: darkblue;
+  transform: scale(1.05);
+}
+
+/* Main section styles */
+section {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-height: 400px;
+  padding: 100px 20vw;
+}
+
+/* Top section styles */
+.top {
+  background: #FBFBFB;
+}
+
+.top .bg {
+  background: #FBFBFB;
+  background: #FBFBFB;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.top .title {
+  font-size: 48px;
+  transform: translateX(-25%);
+}
+
+.top .text {
+  transform: translateX(-25%);
+}
+
+/* Normal section styles */
+.normal {
+  background: white;
+}
+
+.normal h1 {
+  font-size: 36px;
+  margin-bottom: 20px;
+}
+
+.normal p {
+  font-size: 18px;
+  line-height: 1.5;
+  margin-bottom: 40px;
+}
+
+/* Wave SVG styles */
+.wave {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  overflow: hidden;
+  line-height: 0;
+  z-index: 9;
+}
+
+.wave svg {
+  position: relative;
+  display: block;
+  width: calc(119% + 1.3px);
+  height: 140px;
+}
+
+.wave .shape-fill {
+  fill: #FBFBFB;
+}
+
+/* Search input styles */
+
+
+/* Styles for the new buttons */
+#button-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+/* Media query for smaller screens */
+@media screen and (max-width: 768px) {
+  section {
+    padding: 100px 10vw;
+  }
+  
+  .top .title {
+    font-size: 36px;
+    transform: translateX(-10%);
+  }
+  
+}
